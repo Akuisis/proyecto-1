@@ -1,0 +1,127 @@
+name: ML Pipeline - Auto Execute
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      run_full:
+        description: 'Run full pipeline with download'
+        required: true
+        default: 'true'
+        type: choice
+        options: ['true', 'false']
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  ml-pipeline:
+    name: Execute ML Pipeline
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 📦 Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh && echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: 🔧 Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
+
+      - name: 🛠️ Install Dependencies
+        run: |
+          uv venv .venv
+          source .venv/bin/activate
+          uv pip install -e ".[dev]"
+
+      - name: 🔐 Setup Kaggle
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          echo '{"username":"'$KAGGLE_USERNAME'","key":"'$KAGGLE_KEY'"}' > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
+
+      - name: 🚀 Execute Pipeline
+        run: |
+          source .venv/bin/activate
+          python run_pipeline.py --full
+
+      - name: 📊 Show Results
+        if: success()
+        run: |
+          echo "=== Pipeline Metrics ===" 
+          cat logs/metrics.json | python -m json.tool
+          echo ""
+          echo "=== Last 20 lines of log ===" 
+          tail -20 logs/pipeline.log
+
+      - name: 📈 Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: pipeline-results-${{ github.run_id }}
+          path: |
+            logs/
+            models/
+            data/processed/
+          retention-days: 30
+
+      - name: ✅ Commit Results
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          if [ -n "$(git status --porcelain logs/)" ]; then
+            git add logs/metrics.json logs/pipeline.log
+            git commit -m "🤖 Auto: Update pipeline results [skip ci]"
+            git push
+          fi
+
+  lint:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 📦 Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh && echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: 🛠️ Install Dependencies
+        run: |
+          uv venv .venv
+          source .venv/bin/activate
+          uv pip install -e ".[dev]"
+
+      - name: 🔍 Black
+        run: |
+          source .venv/bin/activate
+          black src/ run_pipeline.py --check
+
+      - name: 🔎 Ruff
+        run: |
+          source .venv/bin/activate
+          ruff check src/ run_pipeline.py
