@@ -274,7 +274,7 @@ timeout-minutes: 60  # Cambiar según necesidad
 **Solución:**
 1. Aumenta `timeout-minutes`
 2. Optimiza el código (menos modelos, menos datos)
-3. Usa caché: `actions/cache@v3`
+3. Usa caché: `actions/cache@v4`
 
 ---
 
@@ -313,7 +313,7 @@ strategy:
     python-version: ['3.9', '3.10', '3.11']
     
 steps:
-  - uses: actions/setup-python@v4
+  - uses: actions/setup-python@v5
     with:
       python-version: ${{ matrix.python-version }}
 ```
