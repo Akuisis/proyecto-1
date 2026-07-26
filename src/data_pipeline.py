@@ -28,12 +28,25 @@ class DataPipeline:
             bool: True if download successful, False otherwise
         """
         try:
+            import shutil
+
             logger.info(f"Downloading {PipelineConfig.KAGGLE_COMPETITION} competition data...")
 
             path = kagglehub.competition_download(
                 PipelineConfig.KAGGLE_COMPETITION,
             )
             logger.info(f"✅ Download complete at: {path}")
+
+            # Copy files to project data/raw directory
+            import os
+
+            for file in os.listdir(path):
+                src = os.path.join(path, file)
+                dst = PipelineConfig.RAW_DATA_DIR / file
+                if os.path.isfile(src):
+                    shutil.copy2(src, dst)
+                    logger.info(f"Copied {file} to {PipelineConfig.RAW_DATA_DIR}")
+
             return True
 
         except Exception as e:

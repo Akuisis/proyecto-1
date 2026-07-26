@@ -35,20 +35,30 @@ class PreprocessingPipeline:
         missing = df.null_count()
         logger.info(f"Missing values:\n{missing}")
 
+        # Drop columns with too many missing values
+        for col in df.columns:
+            missing_ratio = df[col].null_count() / df.height
+            if missing_ratio > 0.5:
+                logger.debug(f"Dropping {col}: {missing_ratio:.1%} missing")
+                df = df.drop(col)
+
         # Fill numeric missing values with median
         for col in PipelineConfig.NUMERIC_FEATURES:
-            if col in df.columns:
+            if col in df.columns and df[col].null_count() > 0:
                 median_val = df[col].median()
-                df = df.with_columns(pl.col(col).fill_null(median_val))
-                logger.debug(f"Filled {col} with median: {median_val}")
+                if median_val is not None:
+                    df = df.with_columns(pl.col(col).fill_null(median_val))
+                    logger.debug(f"Filled {col} with median: {median_val}")
 
         # Fill categorical missing values with mode
         for col in PipelineConfig.CATEGORICAL_FEATURES:
-            if col in df.columns:
+            if col in df.columns and df[col].null_count() > 0:
                 # Get most common value
-                mode_val = df[col].mode()[0]
-                df = df.with_columns(pl.col(col).fill_null(mode_val))
-                logger.debug(f"Filled {col} with mode: {mode_val}")
+                mode_df = df[col].value_counts().sort("count", descending=True)
+                if len(mode_df) > 0:
+                    mode_val = mode_df[0, 0]  # Get first value from first column
+                    df = df.with_columns(pl.col(col).fill_null(mode_val))
+                    logger.debug(f"Filled {col} with mode: {mode_val}")
 
         logger.info("✅ Missing values handled")
         return df
@@ -103,15 +113,19 @@ class PreprocessingPipeline:
                         df = df.with_columns(
                             (pl.col(col) == val).cast(pl.Int32).alias(new_col_name)
                         )
-                        if test_df is not None:
+                        if test_df is not None and col in test_df.columns:
                             test_df = test_df.with_columns(
                                 (pl.col(col) == val).cast(pl.Int32).alias(new_col_name)
                             )
 
-        # Drop original categorical columns
-        df = df.drop(PipelineConfig.CATEGORICAL_FEATURES)
+        # Drop original categorical columns (only if they exist)
+        cols_to_drop = [col for col in PipelineConfig.CATEGORICAL_FEATURES if col in df.columns]
+        if cols_to_drop:
+            df = df.drop(cols_to_drop)
         if test_df is not None:
-            test_df = test_df.drop(PipelineConfig.CATEGORICAL_FEATURES)
+            cols_to_drop = [col for col in PipelineConfig.CATEGORICAL_FEATURES if col in test_df.columns]
+            if cols_to_drop:
+                test_df = test_df.drop(cols_to_drop)
 
         logger.info("✅ Categorical features encoded")
         return (df, test_df) if test_df is not None else (df, None)
@@ -186,6 +200,11 @@ class PreprocessingPipeline:
         logger.info("=" * 50)
         logger.info("Starting Preprocessing Pipeline")
         logger.info("=" * 50)
+
+        # Drop non-useful columns
+        cols_to_drop = ["PassengerId", "Name", "Ticket"]
+        train_df = train_df.drop([col for col in cols_to_drop if col in train_df.columns])
+        test_df = test_df.drop([col for col in cols_to_drop if col in test_df.columns])
 
         # Handle missing values
         train_df = PreprocessingPipeline.handle_missing_values(train_df)

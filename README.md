@@ -294,3 +294,33 @@ print(train.shape)
 
 **Última actualización:** Jul 25, 2026  
 **Versión:** 0.1.0
+
+---
+
+## 👥 Contribuidores
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/angelcruzlasso"><img src="https://avatars.githubusercontent.com/u/angelcruzlasso?v=4" width="100px;" alt="Angel Cruz"/><br /><sub><b>angelcruzlasso</b></sub></a><br /><a href="#code-angelcruzlasso" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/features/copilot"><img src="https://avatars.githubusercontent.com/u/223556219?v=4" width="100px;" alt="Copilot"/><br /><sub><b>Copilot</b></sub></a><br /><a href="#code-copilot" title="Code">💻</a> <a href="#architecture" title="Architecture">🏗️</a></td>
+    <td align="center"><a href="https://github.com/Akuisis"><img src="https://avatars.githubusercontent.com/u/Akuisis?v=4" width="100px;" alt="Akuisis"/><br /><sub><b>Akuisis</b></sub></a><br /><a href="#ideas" title="Ideas">🤔</a> <a href="#project" title="Project Management">📆</a></td>
+  </tr>
+</table>
+
+### 🎖️ Roles
+
+- **angelcruzlasso** - Data Engineer, Project Lead
+- **Copilot** - Architecture Design, Code Implementation
+- **Akuisis** - Project Coordination, Kaggle Competition
+
+---
+
+## 📝 Changelog
+
+### v0.1.0 (2026-07-25)
+- ✅ Initial project setup with uv
+- ✅ Professional ML pipeline architecture
+- ✅ Data, preprocessing, and model pipelines
+- ✅ CLI interface for easy execution
+- ✅ Comprehensive documentation
+- 📝 README with contributor credits

@@ -1,0 +1,27 @@
+2026-07-25 19:59:28,892 - src.pipeline - INFO - 
+
+2026-07-25 19:59:28,892 - src.pipeline - INFO - 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
+2026-07-25 19:59:28,892 - src.pipeline - INFO - STARTING TITANIC ML PIPELINE
+2026-07-25 19:59:28,892 - src.pipeline - INFO - 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
+2026-07-25 19:59:28,892 - src.pipeline - INFO - 
+
+2026-07-25 19:59:28,892 - src.pipeline - INFO - Stage 1: Data Download
+2026-07-25 19:59:28,892 - src.pipeline - INFO - --------------------------------------------------
+2026-07-25 19:59:28,892 - src.data_pipeline - INFO - Downloading titanic competition data...
+Downloading to /home/angel/.cache/kagglehub/competitions/titanic.archive...
+  0%|          | 0.00/34.1k [00:00<?, ?B/s]100%|██████████| 34.1k/34.1k [00:00<00:00, 374kB/s]
+Extracting files...
+2026-07-25 19:59:35,733 - src.data_pipeline - INFO - ✅ Download complete at: /home/angel/.cache/kagglehub/competitions/titanic
+2026-07-25 19:59:35,734 - src.pipeline - INFO - 
+Stage 2: Data Loading & Validation
+2026-07-25 19:59:35,734 - src.pipeline - INFO - --------------------------------------------------
+2026-07-25 19:59:35,734 - src.pipeline - ERROR - Pipeline failed with error: Train file not found: /home/angel/Documents/personal/proyectos/github/proyecto-1/data/raw/train.csv
+Traceback (most recent call last):
+  File "/home/angel/Documents/personal/proyectos/github/proyecto-1/src/pipeline.py", line 68, in run_full_pipeline
+    self.train_df, self.test_df = DataPipeline.load_raw_data()
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/angel/Documents/personal/proyectos/github/proyecto-1/src/data_pipeline.py", line 55, in load_raw_data
+    raise FileNotFoundError(f"Train file not found: {PipelineConfig.TRAIN_FILE}")
+FileNotFoundError: Train file not found: /home/angel/Documents/personal/proyectos/github/proyecto-1/data/raw/train.csv
+
+❌ Pipeline failed: Train file not found: /home/angel/Documents/personal/proyectos/github/proyecto-1/data/raw/train.csv
