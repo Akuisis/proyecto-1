@@ -5,7 +5,7 @@ Defines stages, paths, and parameters for the ML pipeline.
 """
 
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
 
 
 class PipelineConfig:

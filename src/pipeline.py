@@ -6,12 +6,12 @@ Coordinates all pipeline stages.
 
 import logging
 import sys
-from typing import Dict, Any
+from typing import Any, Dict
 
 from .config import PipelineConfig
 from .data_pipeline import DataPipeline
-from .preprocessing_pipeline import PreprocessingPipeline
 from .model_pipeline import ModelPipeline
+from .preprocessing_pipeline import PreprocessingPipeline
 
 # Configure logging
 logging.basicConfig(
@@ -118,9 +118,7 @@ class MLPipeline:
             # Save best model (pickle)
             import pickle
 
-            model_path = (
-                PipelineConfig.MODELS_DIR / f"{self.model_results['best_model_name']}.pkl"
-            )
+            model_path = PipelineConfig.MODELS_DIR / f"{self.model_results['best_model_name']}.pkl"
             with open(model_path, "wb") as f:
                 pickle.dump(self.model_results["best_model"], f)
             logger.info(f"Model saved: {model_path}")

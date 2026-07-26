@@ -7,8 +7,9 @@ Command-line interface for the ML pipeline.
 
 import argparse
 import sys
-from src.pipeline import MLPipeline
+
 from src.config import PipelineConfig
+from src.pipeline import MLPipeline
 
 
 def main():

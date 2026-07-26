@@ -8,7 +8,7 @@ import logging
 from typing import Tuple
 
 import polars as pl
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler
 
 from .config import PipelineConfig
 
@@ -123,7 +123,9 @@ class PreprocessingPipeline:
         if cols_to_drop:
             df = df.drop(cols_to_drop)
         if test_df is not None:
-            cols_to_drop = [col for col in PipelineConfig.CATEGORICAL_FEATURES if col in test_df.columns]
+            cols_to_drop = [
+                col for col in PipelineConfig.CATEGORICAL_FEATURES if col in test_df.columns
+            ]
             if cols_to_drop:
                 test_df = test_df.drop(cols_to_drop)
 
@@ -164,19 +166,13 @@ class PreprocessingPipeline:
 
             # Convert back to polars
             df = df.with_columns(
-                [
-                    pl.Series(col, scaled_data[:, i])
-                    for i, col in enumerate(numeric_cols)
-                ]
+                [pl.Series(col, scaled_data[:, i]) for i, col in enumerate(numeric_cols)]
             )
 
             if test_df is not None:
                 scaled_test_data = scaler.transform(test_df[numeric_cols].to_numpy())
                 test_df = test_df.with_columns(
-                    [
-                        pl.Series(col, scaled_test_data[:, i])
-                        for i, col in enumerate(numeric_cols)
-                    ]
+                    [pl.Series(col, scaled_test_data[:, i]) for i, col in enumerate(numeric_cols)]
                 )
 
         logger.info("✅ Features scaled")

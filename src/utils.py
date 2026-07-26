@@ -1,7 +1,8 @@
 """Utility functions for the project"""
 
-import polars as pl
 from pathlib import Path
+
+import polars as pl
 
 
 def load_data(filepath: Path) -> pl.DataFrame:
