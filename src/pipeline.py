@@ -59,8 +59,14 @@ class MLPipeline:
                 logger.info("-" * 50)
                 success = DataPipeline.download_data()
                 if not success:
-                    logger.error("Failed to download data")
-                    return {"status": "failed", "error": "Download failed"}
+                    if PipelineConfig.TRAIN_FILE.exists() and PipelineConfig.TEST_FILE.exists():
+                        logger.warning(
+                            "Download failed, but local raw data exists. Continuing "
+                            "with existing files.",
+                        )
+                    else:
+                        logger.error("Failed to download data and no local raw data found")
+                        return {"status": "failed", "error": "Download failed"}
 
             # Stage 2: Load & Validate Data
             logger.info("\nStage 2: Data Loading & Validation")

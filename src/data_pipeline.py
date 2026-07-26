@@ -49,7 +49,12 @@ class DataPipeline:
             return True
 
         except Exception as e:
-            logger.error(f"❌ Failed to download data: {e}")
+            logger.error(
+                "❌ Kaggle download failed. Verify KAGGLE_USERNAME/KAGGLE_KEY and "
+                "that the account accepted competition rules: "
+                "https://kaggle.com/competitions/titanic/rules",
+            )
+            logger.error(f"Original error: {e}")
             return False
 
     @staticmethod
