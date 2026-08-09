@@ -653,3 +653,113 @@ Stage 5: Saving Results
 2026-08-02 05:16:47,259 - src.pipeline - INFO - ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
 2026-08-02 05:16:47,259 - src.pipeline - INFO - 
 
+2026-08-09 03:23:41,154 - src.pipeline - INFO - 
+
+2026-08-09 03:23:41,154 - src.pipeline - INFO - 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
+2026-08-09 03:23:41,154 - src.pipeline - INFO - STARTING TITANIC ML PIPELINE
+2026-08-09 03:23:41,154 - src.pipeline - INFO - 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
+2026-08-09 03:23:41,154 - src.pipeline - INFO - 
+
+2026-08-09 03:23:41,154 - src.pipeline - INFO - Stage 1: Data Download
+2026-08-09 03:23:41,154 - src.pipeline - INFO - --------------------------------------------------
+2026-08-09 03:23:41,154 - src.data_pipeline - INFO - Downloading titanic competition data...
+2026-08-09 03:23:41,678 - src.data_pipeline - INFO - ✅ Download complete at: /home/runner/.cache/kagglehub/competitions/titanic
+2026-08-09 03:23:41,678 - src.data_pipeline - INFO - Copied gender_submission.csv to /home/runner/work/proyecto-1/proyecto-1/data/raw
+2026-08-09 03:23:41,679 - src.data_pipeline - INFO - Copied test.csv to /home/runner/work/proyecto-1/proyecto-1/data/raw
+2026-08-09 03:23:41,679 - src.data_pipeline - INFO - Copied train.csv to /home/runner/work/proyecto-1/proyecto-1/data/raw
+2026-08-09 03:23:41,679 - src.pipeline - INFO - 
+Stage 2: Data Loading & Validation
+2026-08-09 03:23:41,679 - src.pipeline - INFO - --------------------------------------------------
+2026-08-09 03:23:41,679 - src.data_pipeline - INFO - Loading raw data...
+2026-08-09 03:23:41,682 - src.data_pipeline - INFO - Train shape: (891, 12)
+2026-08-09 03:23:41,682 - src.data_pipeline - INFO - Test shape: (418, 11)
+2026-08-09 03:23:41,682 - src.data_pipeline - INFO - Validating data...
+2026-08-09 03:23:41,682 - src.data_pipeline - INFO - ✅ Data validation passed
+2026-08-09 03:23:41,683 - src.pipeline - INFO - 
+Stage 3: Data Preprocessing
+2026-08-09 03:23:41,683 - src.pipeline - INFO - --------------------------------------------------
+2026-08-09 03:23:41,683 - src.preprocessing_pipeline - INFO - ==================================================
+2026-08-09 03:23:41,683 - src.preprocessing_pipeline - INFO - Starting Preprocessing Pipeline
+2026-08-09 03:23:41,683 - src.preprocessing_pipeline - INFO - ==================================================
+2026-08-09 03:23:41,688 - src.preprocessing_pipeline - INFO - Handling missing values...
+2026-08-09 03:23:41,688 - src.preprocessing_pipeline - INFO - Missing values:
+shape: (1, 9)
+┌──────────┬────────┬─────┬─────┬───┬───────┬──────┬───────┬──────────┐
+│ Survived ┆ Pclass ┆ Sex ┆ Age ┆ … ┆ Parch ┆ Fare ┆ Cabin ┆ Embarked │
+│ ---      ┆ ---    ┆ --- ┆ --- ┆   ┆ ---   ┆ ---  ┆ ---   ┆ ---      │
+│ u32      ┆ u32    ┆ u32 ┆ u32 ┆   ┆ u32   ┆ u32  ┆ u32   ┆ u32      │
+╞══════════╪════════╪═════╪═════╪═══╪═══════╪══════╪═══════╪══════════╡
+│ 0        ┆ 0      ┆ 0   ┆ 177 ┆ … ┆ 0     ┆ 0    ┆ 687   ┆ 2        │
+└──────────┴────────┴─────┴─────┴───┴───────┴──────┴───────┴──────────┘
+2026-08-09 03:23:41,690 - src.preprocessing_pipeline - INFO - ✅ Missing values handled
+2026-08-09 03:23:41,690 - src.preprocessing_pipeline - INFO - Handling missing values...
+2026-08-09 03:23:41,690 - src.preprocessing_pipeline - INFO - Missing values:
+shape: (1, 8)
+┌────────┬─────┬─────┬───────┬───────┬──────┬───────┬──────────┐
+│ Pclass ┆ Sex ┆ Age ┆ SibSp ┆ Parch ┆ Fare ┆ Cabin ┆ Embarked │
+│ ---    ┆ --- ┆ --- ┆ ---   ┆ ---   ┆ ---  ┆ ---   ┆ ---      │
+│ u32    ┆ u32 ┆ u32 ┆ u32   ┆ u32   ┆ u32  ┆ u32   ┆ u32      │
+╞════════╪═════╪═════╪═══════╪═══════╪══════╪═══════╪══════════╡
+│ 0      ┆ 0   ┆ 86  ┆ 0     ┆ 0     ┆ 1    ┆ 327   ┆ 0        │
+└────────┴─────┴─────┴───────┴───────┴──────┴───────┴──────────┘
+2026-08-09 03:23:41,690 - src.preprocessing_pipeline - INFO - ✅ Missing values handled
+2026-08-09 03:23:41,692 - src.preprocessing_pipeline - INFO - Encoding categorical features...
+2026-08-09 03:23:41,695 - src.preprocessing_pipeline - INFO - ✅ Categorical features encoded
+2026-08-09 03:23:41,695 - src.preprocessing_pipeline - INFO - Scaling features...
+2026-08-09 03:23:41,703 - src.preprocessing_pipeline - INFO - ✅ Features scaled
+2026-08-09 03:23:41,703 - src.preprocessing_pipeline - INFO - ==================================================
+2026-08-09 03:23:41,703 - src.preprocessing_pipeline - INFO - ✅ Preprocessing Pipeline Complete
+2026-08-09 03:23:41,703 - src.preprocessing_pipeline - INFO - ==================================================
+2026-08-09 03:23:41,703 - src.pipeline - INFO - 
+Stage 4: Model Training & Evaluation
+2026-08-09 03:23:41,703 - src.pipeline - INFO - --------------------------------------------------
+2026-08-09 03:23:41,703 - src.model_pipeline - INFO - ==================================================
+2026-08-09 03:23:41,703 - src.model_pipeline - INFO - Starting Model Pipeline
+2026-08-09 03:23:41,703 - src.model_pipeline - INFO - ==================================================
+2026-08-09 03:23:41,733 - src.model_pipeline - INFO - Building models...
+2026-08-09 03:23:41,733 - src.model_pipeline - INFO - ✅ Built 3 models
+2026-08-09 03:23:41,733 - src.model_pipeline - INFO - 
+Training logistic_regression...
+2026-08-09 03:23:41,746 - src.model_pipeline - INFO - 
+logistic_regression Results:
+2026-08-09 03:23:41,746 - src.model_pipeline - INFO -   Accuracy:  0.8293
+2026-08-09 03:23:41,746 - src.model_pipeline - INFO -   Precision: 0.7759
+2026-08-09 03:23:41,746 - src.model_pipeline - INFO -   Recall:    0.7500
+2026-08-09 03:23:41,746 - src.model_pipeline - INFO -   F1 Score:  0.7627
+2026-08-09 03:23:41,772 - src.model_pipeline - INFO -   CV Mean: 0.7774 (+/- 0.0287)
+2026-08-09 03:23:41,772 - src.model_pipeline - INFO - 
+Training random_forest...
+2026-08-09 03:23:41,930 - src.model_pipeline - INFO - 
+random_forest Results:
+2026-08-09 03:23:41,931 - src.model_pipeline - INFO -   Accuracy:  0.8354
+2026-08-09 03:23:41,931 - src.model_pipeline - INFO -   Precision: 0.8113
+2026-08-09 03:23:41,931 - src.model_pipeline - INFO -   Recall:    0.7167
+2026-08-09 03:23:41,931 - src.model_pipeline - INFO -   F1 Score:  0.7611
+2026-08-09 03:23:42,690 - src.model_pipeline - INFO -   CV Mean: 0.8078 (+/- 0.0521)
+2026-08-09 03:23:42,690 - src.model_pipeline - INFO - 
+Training xgboost...
+2026-08-09 03:23:42,730 - src.model_pipeline - INFO - 
+xgboost Results:
+2026-08-09 03:23:42,730 - src.model_pipeline - INFO -   Accuracy:  0.8293
+2026-08-09 03:23:42,730 - src.model_pipeline - INFO -   Precision: 0.7857
+2026-08-09 03:23:42,730 - src.model_pipeline - INFO -   Recall:    0.7333
+2026-08-09 03:23:42,730 - src.model_pipeline - INFO -   F1 Score:  0.7586
+2026-08-09 03:23:42,883 - src.model_pipeline - INFO -   CV Mean: 0.7972 (+/- 0.0489)
+2026-08-09 03:23:42,883 - src.model_pipeline - INFO - 
+✅ Best Model: random_forest (Accuracy: 0.8354)
+2026-08-09 03:23:42,883 - src.model_pipeline - INFO - ==================================================
+2026-08-09 03:23:42,883 - src.model_pipeline - INFO - ✅ Model Pipeline Complete
+2026-08-09 03:23:42,883 - src.model_pipeline - INFO - ==================================================
+2026-08-09 03:23:42,883 - src.pipeline - INFO - 
+Stage 5: Saving Results
+2026-08-09 03:23:42,883 - src.pipeline - INFO - --------------------------------------------------
+2026-08-09 03:23:42,893 - src.data_pipeline - INFO - Saved processed data to /home/runner/work/proyecto-1/proyecto-1/data/processed
+2026-08-09 03:23:42,897 - src.pipeline - INFO - Model saved: /home/runner/work/proyecto-1/proyecto-1/models/random_forest.pkl
+2026-08-09 03:23:42,898 - src.pipeline - INFO - Metrics saved: /home/runner/work/proyecto-1/proyecto-1/logs/metrics.json
+2026-08-09 03:23:42,898 - src.pipeline - INFO - 
+
+2026-08-09 03:23:42,898 - src.pipeline - INFO - ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+2026-08-09 03:23:42,898 - src.pipeline - INFO - PIPELINE COMPLETED SUCCESSFULLY
+2026-08-09 03:23:42,898 - src.pipeline - INFO - ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+2026-08-09 03:23:42,898 - src.pipeline - INFO - 
+
